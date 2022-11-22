@@ -51,28 +51,28 @@ class ParkingAdapter(private val parkings:List<Parking>, private val context: Co
             holder.distance.text = "- km"
         }
 
-        if (parking.disponibilite.toInt() in 0..parking.grpComplet.toInt() ){
-            holder.name.setText("${parking.grpNom} (COMPLET)")
-            holder.name.setTextColor(context.getColor(R.color.noAvailableParkings))
-        }else if(parking.disponibilite.toInt() <= -1 ) {
-            holder.name.setText("${parking.grpNom} (PAS DISPONIBLE)")
-            holder.adress.text = "(Localisation non disponible)"
-            holder.name.setTextColor(context.getColor(R.color.invalidParkings))
-        } else {
-            holder.name.setTextColor(context.getColor(R.color.availableParkings))
-        }
 
         holder.availability.text = parking.showDetails()
         if (parking.grpStatut.toInt() == 5){
+            holder.name.setTextColor(context.getColor(R.color.availableParkings))
             holder.status.setImageResource(R.drawable.ic_baseline_circle_green)
         }else if (parking.grpStatut.toInt() == 2) {
-            holder.name.setText("${parking.grpNom}\n(Ouvert que pour les abonnés)")
+            holder.name.setText("${parking.grpIdentifiant}-${parking.grpNom}\n(Ouvert que pour les abonnés)")
             holder.name.setTextColor(context.getColor(R.color.membersParkings))
             holder.status.setImageResource(R.drawable.ic_baseline_subscriptions_24)
         } else if (parking.grpStatut.toInt() == 1) {
             holder.status.setImageResource(R.drawable.ic_baseline_circle_red)
         } else {
             holder.status.setImageResource(R.drawable.ic_baseline_do_not_disturb_24)
+        }
+
+        if (parking.disponibilite.toInt() in 0..parking.grpComplet.toInt() ){
+            holder.name.setText("${parking.grpIdentifiant}-${parking.grpNom} (COMPLET)")
+            holder.name.setTextColor(context.getColor(R.color.noAvailableParkings))
+        }else if(parking.disponibilite.toInt() <= -1 ) {
+            holder.name.setText("${parking.grpIdentifiant}-${parking.grpNom}\n(PAS DISPONIBLE)")
+            holder.adress.text = "(Localisation non disponible)"
+            holder.name.setTextColor(context.getColor(R.color.invalidParkings))
         }
 
         //Quand on click sur la card view -> on ouvre une nouvelle fenetre
